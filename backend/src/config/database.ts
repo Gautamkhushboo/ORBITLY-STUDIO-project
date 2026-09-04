@@ -1,4 +1,5 @@
 // backend/src/config/database.ts
+import dns from 'dns';
 import mongoose from 'mongoose';
 import { MONGODB_URI } from './index';
 
@@ -19,6 +20,12 @@ export const connectDatabase = async (): Promise<void> => {
   }
 
   try {
+    // Configure DNS resolver to resolve MongoDB Atlas SRV records reliably
+    try {
+      dns.setServers(['8.8.8.8', '8.8.4.4']);
+    } catch {
+      // Fallback if environment restricts setting custom DNS servers
+    }
     mongoose.connection.on('connected', () => {
       console.log('✅ MongoDB connected successfully');
     });

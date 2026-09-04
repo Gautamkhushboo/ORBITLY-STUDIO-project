@@ -1,7 +1,8 @@
 import { Project, BlogPost } from '@/types';
 export type { Project, BlogPost };
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+const RAW_API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+const API_BASE = RAW_API_BASE.replace(/\/api\/?$/, '').replace(/\/+$/, '');
 
 export interface ApiResponse<T> {
   success: boolean;
