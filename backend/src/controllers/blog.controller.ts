@@ -1,4 +1,4 @@
-﻿// backend/src/controllers/blog.controller.ts
+// backend/src/controllers/blog.controller.ts
 import { Request, Response } from 'express';
 import { Types } from 'mongoose';
 import { BlogPost } from '../models';
@@ -241,7 +241,7 @@ export const createBlog = async (req: Request, res: Response) => {
     if (getDatabaseStatus() === 'connected') {
       const existing = await BlogPost.findOne({ slug });
       if (existing) {
-        return res.status(400).json({
+        return res.status(409).json({
           success: false,
           message: 'A blog post with this slug already exists',
         });
@@ -264,7 +264,7 @@ export const createBlog = async (req: Request, res: Response) => {
     // In-memory fallback
     const existing = memoryBlogs.find((b) => b.slug === slug);
     if (existing) {
-      return res.status(400).json({
+      return res.status(409).json({
         success: false,
         message: 'A blog post with this slug already exists',
       });
@@ -288,7 +288,7 @@ export const createBlog = async (req: Request, res: Response) => {
     });
   } catch (error: any) {
     if (error.code === 11000) {
-      return res.status(400).json({
+      return res.status(409).json({
         success: false,
         message: 'A blog post with this slug already exists',
       });
@@ -323,7 +323,7 @@ export const updateBlog = async (req: Request, res: Response) => {
       if (getDatabaseStatus() === 'connected') {
         const duplicate = await BlogPost.findOne({ slug, _id: { $ne: id } });
         if (duplicate) {
-          return res.status(400).json({
+          return res.status(409).json({
             success: false,
             message: 'A blog post with this slug already exists',
           });
@@ -331,7 +331,7 @@ export const updateBlog = async (req: Request, res: Response) => {
       } else {
         const duplicate = memoryBlogs.find((b) => b.slug === slug && b._id !== id);
         if (duplicate) {
-          return res.status(400).json({
+          return res.status(409).json({
             success: false,
             message: 'A blog post with this slug already exists',
           });
