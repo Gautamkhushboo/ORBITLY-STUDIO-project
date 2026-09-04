@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
+import Link from 'next/link';
 import { BlogPost } from '@/types';
 import { getBlogPosts } from '@/lib/api';
 
@@ -102,12 +103,15 @@ export default function BlogPreview() {
                 </div>
 
                 <div className="pt-8 border-t border-zinc-900 mt-8 flex items-center justify-between">
-                  <span className="text-xs font-mono uppercase tracking-wider text-zinc-400 group-hover:text-white transition-colors">
-                    Read Article
-                  </span>
-                  <span className="text-zinc-400 group-hover:translate-x-1 group-hover:text-white transition-all">
-                    →
-                  </span>
+                  <Link
+                    href={`/blog/${post.slug}`}
+                    className="flex items-center justify-between w-full text-xs font-mono uppercase tracking-wider text-zinc-400 group-hover:text-white transition-colors"
+                  >
+                    <span>Read Article</span>
+                    <span className="group-hover:translate-x-1 group-hover:text-white transition-all">
+                      →
+                    </span>
+                  </Link>
                 </div>
               </article>
             ))}

@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { Project } from '@/types';
 import { getProjects } from '@/lib/api';
 
@@ -128,10 +129,13 @@ export default function SelectedWork() {
                 </div>
 
                 <div className="pt-4">
-                  <div className="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-zinc-300 group-hover:text-white transition-colors">
+                  <Link
+                    href={`/projects/${featuredProject.slug}`}
+                    className="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-zinc-300 group-hover:text-white transition-colors"
+                  >
                     <span>View Case Study</span>
                     <span className="group-hover:translate-x-1 transition-transform">→</span>
-                  </div>
+                  </Link>
                 </div>
               </div>
 
@@ -199,10 +203,13 @@ export default function SelectedWork() {
                       </span>
                     ))}
                   </div>
-                  <div className="flex items-center gap-1.5 text-xs font-mono text-zinc-400 group-hover:text-white transition-colors">
+                  <Link
+                    href={`/projects/${project.slug}`}
+                    className="flex items-center gap-1.5 text-xs font-mono text-zinc-400 group-hover:text-white transition-colors"
+                  >
                     <span>Explore</span>
                     <span className="group-hover:translate-x-1 transition-transform">→</span>
-                  </div>
+                  </Link>
                 </div>
               </div>
             ))}

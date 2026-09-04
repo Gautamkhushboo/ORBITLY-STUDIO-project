@@ -38,6 +38,12 @@ export function mapBackendProject(raw: Record<string, unknown>): Project {
     featured: Boolean(raw.featured),
     metrics: typeof raw.outcome === 'string' && raw.outcome ? String(raw.outcome) : undefined,
     client: typeof raw.client === 'string' && raw.client ? String(raw.client) : undefined,
+    challenge: typeof raw.challenge === 'string' ? String(raw.challenge) : undefined,
+    approach: typeof raw.approach === 'string' ? String(raw.approach) : undefined,
+    solution: typeof raw.solution === 'string' ? String(raw.solution) : undefined,
+    outcome: typeof raw.outcome === 'string' ? String(raw.outcome) : undefined,
+    services: Array.isArray(raw.services) ? raw.services.map(String) : [],
+    images: Array.isArray(raw.images) ? raw.images.map(String) : [],
   };
 }
 
@@ -50,6 +56,7 @@ export function mapBackendBlogPost(raw: Record<string, unknown>): BlogPost {
       const d = new Date(String(publishedAt));
       formattedDate = d.toLocaleDateString('en-US', {
         month: 'short',
+        day: 'numeric',
         year: 'numeric',
       });
     } catch {
@@ -62,9 +69,16 @@ export function mapBackendBlogPost(raw: Record<string, unknown>): BlogPost {
     title: String(raw.title || ''),
     slug: String(raw.slug || ''),
     excerpt: String(raw.excerpt || ''),
+    content: typeof raw.content === 'string' ? String(raw.content) : '',
+    featuredImage:
+      typeof raw.featuredImage === 'string' && raw.featuredImage
+        ? String(raw.featuredImage)
+        : 'https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?auto=format&fit=crop&w=1200&q=80',
     category: String(raw.category || 'Engineering'),
+    author: typeof raw.author === 'string' ? String(raw.author) : 'Orbitly Studio',
     date: formattedDate,
     readTime: typeof raw.readTime === 'number' ? `${raw.readTime} min read` : '5 min read',
+    tags: Array.isArray(raw.tags) ? raw.tags.map(String) : [],
     featured: Boolean(raw.featured),
   };
 }

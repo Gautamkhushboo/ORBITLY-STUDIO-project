@@ -11,6 +11,12 @@ export interface Project {
   featured: boolean;
   metrics?: string;
   client?: string;
+  challenge?: string;
+  approach?: string;
+  solution?: string;
+  outcome?: string;
+  services?: string[];
+  images?: string[];
 }
 
 export interface Service {
@@ -41,8 +47,12 @@ export interface BlogPost {
   title: string;
   slug: string;
   excerpt: string;
+  content?: string;
+  featuredImage?: string;
   category: string;
+  author?: string;
   date: string;
   readTime: string;
+  tags?: string[];
   featured?: boolean;
 }
