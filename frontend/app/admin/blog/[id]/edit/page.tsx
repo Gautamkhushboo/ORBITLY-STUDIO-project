@@ -4,6 +4,8 @@ import React, { useEffect, useState } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import Link from 'next/link';
 import { getAdminBlogPosts, updateAdminBlogPost, BlogPost } from '@/lib/api';
+import RichTextEditor from '@/components/admin/RichTextEditor';
+import { markdownToHtml } from '@/lib/contentUtils';
 
 export default function EditBlogPage() {
   const router = useRouter();
@@ -49,7 +51,7 @@ export default function EditBlogPage() {
         title: existing.title || '',
         slug: existing.slug || '',
         excerpt: existing.excerpt || '',
-        content: existing.content || '',
+        content: markdownToHtml(existing.content || ''),
         featuredImage: existing.featuredImage || '',
         category: existing.category || 'Product Strategy',
         author: existing.author || 'Orbitly Studio',
@@ -256,21 +258,28 @@ export default function EditBlogPage() {
 
         {/* Article Body */}
         <div className="rounded-2xl border border-zinc-800 bg-zinc-950/60 p-6 sm:p-8 space-y-6">
-          <h2 className="text-base font-medium text-white pb-3 border-b border-zinc-900">
-            3. Article Content (Markdown Supported)
-          </h2>
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-3 border-b border-zinc-900 gap-2">
+            <h2 className="text-base font-medium text-white">
+              3. Article Content (Rich Text)
+            </h2>
+            <span className="text-xs font-mono text-zinc-500">
+              Format with headings, lists, quotes, and links
+            </span>
+          </div>
 
           <div>
             <label className="block text-xs font-mono uppercase text-zinc-400 mb-2">
               Body Content *
             </label>
-            <textarea
-              rows={12}
-              required
+            <RichTextEditor
               value={form.content}
-              onChange={(e) => setForm({ ...form, content: e.target.value })}
-              className="w-full rounded-lg border border-zinc-800 bg-zinc-900/60 p-4 text-sm font-mono text-zinc-200 leading-relaxed focus:border-emerald-400 focus:outline-none"
+              onChange={(content) => setForm((prev) => ({ ...prev, content }))}
+              disabled={submitting}
+              placeholder="Write your article narrative here..."
             />
+            {fieldErrors['content'] && (
+              <p className="text-[11px] text-red-400 font-mono mt-2">{fieldErrors['content']}</p>
+            )}
           </div>
         </div>
 
