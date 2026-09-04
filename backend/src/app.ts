@@ -6,6 +6,7 @@ import morgan from 'morgan';
 import rateLimit from 'express-rate-limit';
 
 import { CLIENT_URL, getDatabaseStatus } from './config';
+import apiRoutes from './routes';
 
 const app = express();
 
@@ -15,7 +16,7 @@ app.use(cors({ origin: CLIENT_URL || '*' }));
 app.use(helmet());
 app.use(morgan('dev'));
 
-// Basic rate limiter
+// Basic global rate limiter
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
   max: 100,
@@ -35,4 +36,8 @@ app.get('/api/health', (_req, res) => {
   });
 });
 
+// API Routes
+app.use('/api', apiRoutes);
+
 export default app;
+
