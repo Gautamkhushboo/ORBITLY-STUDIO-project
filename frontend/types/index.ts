@@ -9,6 +9,7 @@ export interface Project {
   year: number;
   image: string;
   featured: boolean;
+  published?: boolean;
   metrics?: string;
   client?: string;
   challenge?: string;
@@ -55,4 +56,5 @@ export interface BlogPost {
   readTime: string;
   tags?: string[];
   featured?: boolean;
+  published?: boolean;
 }
