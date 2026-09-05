@@ -1,7 +1,24 @@
 import { Project, BlogPost } from '@/types';
 export type { Project, BlogPost };
 
-const RAW_API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+const DEFAULT_PROD_API = 'https://orbitly-studio-project-1.onrender.com';
+const DEFAULT_DEV_API = 'http://localhost:5000';
+
+const getApiBase = (): string => {
+  const envUrl = process.env.NEXT_PUBLIC_API_URL;
+  if (envUrl) {
+    if (
+      process.env.NODE_ENV === 'production' &&
+      (envUrl.includes('localhost') || envUrl.includes('127.0.0.1'))
+    ) {
+      return DEFAULT_PROD_API;
+    }
+    return envUrl;
+  }
+  return process.env.NODE_ENV === 'production' ? DEFAULT_PROD_API : DEFAULT_DEV_API;
+};
+
+const RAW_API_BASE = getApiBase();
 const API_BASE = RAW_API_BASE.replace(/\/api\/?$/, '').replace(/\/+$/, '');
 
 export interface ApiResponse<T> {

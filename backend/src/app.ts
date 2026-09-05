@@ -53,9 +53,10 @@ app.use('/api', publicReadLimiter);
 // Health check route
 app.get('/api/health', (_req, res) => {
   const dbStatus = getDatabaseStatus();
+  const isConnected = dbStatus === 'connected';
   res.json({
-    success: true,
-    message: 'Orbitly Studio API is healthy',
+    success: isConnected,
+    message: isConnected ? 'Orbitly Studio API is healthy' : 'Orbitly Studio API is running (database disconnected)',
     timestamp: new Date().toISOString(),
     database: {
       status: dbStatus,
